@@ -6,25 +6,63 @@
 //
 
 import RxSwift
+import RxCocoa
 import Darwin
 import Foundation
 
-class HomeViewModel {
+protocol HomeViewModelProtocol: BaseViewModelProtocol {
+    var news: PublishRelay<[NewsResponseModel]> { get }
+    func getNews(loadFromStart: Bool, disposeBag: DisposeBag, searchingText: String?)
+    func getSerchingFilters() -> SearchingFilters
+    func getLikedNews() -> [NewsRealmModel]
+    func openWebPage(urlString: String, title: String)
+    func openSearhSettings(dismissAction: @escaping (()->Void))
+    func openLikedNewsPage()
+}
+
+class HomeViewModel: HomeViewModelProtocol {
     
     var router: RouterProtocol?
     
-    let news = BehaviorSubject<[NewsModel]>(value: [])
+    var news = PublishRelay<[NewsResponseModel]>()
     
-    var newsPageNumber = 0
-    var totalResults = 0
+    var oldNews: [NewsResponseModel] = []
+    
+    var noInternetHandler: (()->Void)?
     
     var isLoading = false
     
-    func getNews(loadFromStart: Bool, disposeBag: DisposeBag) {
-        if (newsPageNumber) * 20 > totalResults && totalResults != 0 {
-            return
-        }
-        
+    private var newsPageNumber = 0
+    var totalResults = 0
+    
+    var disposeBag: DisposeBag? = DisposeBag()
+    
+    init() {
+        NetworkLayer
+            .shared
+            .newsObservableObject
+            .subscribe(onNext: { [weak self] response in
+                self?.totalResults = response.totalResults
+                if self?.newsPageNumber == 1 {
+                    self?.oldNews = []
+                    self?.news.accept(response.articles)
+                } else {
+                    let oldData = self?.oldNews ?? []
+                    if(response.articles.count > 0) {
+                        self?.news.accept(oldData + response.articles)
+                    }
+                }
+                self?.oldNews.append(contentsOf: response.articles)
+                self?.isLoading = false
+            }).disposed(by: disposeBag!)
+    }
+    
+    deinit {
+        disposeBag = nil
+    }
+    
+    func getNews(loadFromStart: Bool, disposeBag: DisposeBag, searchingText: String?) {
+
         isLoading = true
         newsPageNumber += 1
         
@@ -32,18 +70,18 @@ class HomeViewModel {
             newsPageNumber = 1
         }
         
-        NetworkLayer.shared.getNewsWith(pageNumber: newsPageNumber, searchingFilters: getSerchingFilters()).subscribe(onNext: { [weak self] response in            
-            var news = [NewsModel]()
+        NetworkLayer
+            .shared
+            .getNewsWith(urlType: searchingText == nil ? .top_headlines : .everything, pageNumber: newsPageNumber, searchingFilters: getSerchingFilters(), searchingText: searchingText)
             
-            if let oldNews = try? self?.news.value(), !loadFromStart {
-                news.append(contentsOf: oldNews)
-            }
-            news.append(contentsOf: response.articles)
-            self?.totalResults = response.totalResults
-            self?.news.onNext(news)
-            self?.isLoading = false
-        }).disposed(by: disposeBag)
-        
+    }
+    
+    func getLikedNews() -> [NewsRealmModel] {
+        DataSaver.shared.getAllLikedNews()
+    }
+    
+    func getSerchingFilters() -> SearchingFilters {
+        DataSaver.shared.getSearchingFilters()
     }
     
     func openWebPage(urlString: String, title: String) {
@@ -51,11 +89,11 @@ class HomeViewModel {
         router?.openWeb(url: url, title: title)
     }
     
-    func openSearhSettings() {
-        router?.presentSearchSettings()
+    func openSearhSettings(dismissAction: @escaping (()->Void)) {
+        router?.presentSearchSettings(dismissAction: dismissAction)
     }
     
-    func getSerchingFilters() -> SearchingFilters {
-        DataSaver.shared.getSearchingFilters()
+    func openLikedNewsPage() {
+        router?.openLikedNewsPage()
     }
 }

@@ -9,7 +9,14 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class SerchFilterViewModel {
+protocol SerchFilterViewModelProtocol: BaseViewModelProtocol {
+    func getSources(disposeBag: DisposeBag) -> Observable<[SourceElement]>
+    func dismiss(dismissAction: (()->Void)?)
+    func saveSearchingSettings(country: SupportedCountries, category: Categories, sources: [SourceElement], isNeedToBeSorted: Bool)
+    func getSearchingSettings() -> SearchingFilters
+}
+
+class SerchFilterViewModel: SerchFilterViewModelProtocol {
     
     var router: RouterProtocol?
     
@@ -23,12 +30,12 @@ class SerchFilterViewModel {
         return sourcesPublishSubject.asObservable()
     }
     
-    func dismiss() {
-        router?.dismissVC()
+    func dismiss(dismissAction: (()->Void)?) {
+        router?.dismissVC(dismissAction: dismissAction)
     }
     
-    func saveSearchingSettings(country: SupportedCountries, category: Categories, sources: [SourceElement]) {
-        let settings = SearchingFilters(country: country, category: category, sources: sources)
+    func saveSearchingSettings(country: SupportedCountries, category: Categories, sources: [SourceElement], isNeedToBeSorted: Bool) {
+        let settings = SearchingFilters(country: country, category: category, sources: sources, isNeedToBeSorted: isNeedToBeSorted)
         DataSaver.shared.saveSearchingFilters(settings)
     }
     

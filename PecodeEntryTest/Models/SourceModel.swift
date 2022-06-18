@@ -13,12 +13,9 @@ struct SourceModel: Codable {
     let name: String?
 }
 
-class SourceModelRealmObject: Object {
-    @objc dynamic var id: String?
-    @objc dynamic var name: String?
+class SourceRealmModel: Object, ObjectKeyIdentifiable {
+    @Persisted(primaryKey: true) var sourceId: String
     
-    init(id: String?, name: String?) {
-        self.name = name
-        self.id = id
-    }
+    @Persisted var id: String = ""
+    @Persisted var name: String = ""
 }

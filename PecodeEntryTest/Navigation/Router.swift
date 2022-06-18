@@ -14,12 +14,12 @@ protocol RouterMain {
 
 protocol RouterProtocol: RouterMain {
     func popViewController()
-    func dismissVC()
+    func dismissVC(dismissAction: (()->Void)?)
     
     func initial()
-    func presentSearchSettings()
+    func presentSearchSettings(dismissAction: @escaping (()->Void))
     func openWeb(url: URL, title: String)
-    
+    func openLikedNewsPage()
 }
 
 class Router: RouterProtocol {
@@ -36,10 +36,6 @@ class Router: RouterProtocol {
     
     private func setupNavBar() {
         let nb = navigationController?.navigationBar
-        nb?.setBackgroundImage(UIImage(), for: .default)
-        nb?.shadowImage = UIImage()
-        nb?.barTintColor = UIColor.white
-        nb?.tintColor = UIColor.white
         nb?.isHidden = false
         nb?.isTranslucent = true
         navigationController?.navigationItem.hidesBackButton = true
@@ -51,9 +47,11 @@ class Router: RouterProtocol {
         }
     }
     
-    func dismissVC() {
+    func dismissVC(dismissAction: (()->Void)?) {
         if let navigationController = navigationController {
-            navigationController.dismiss(animated: true)
+            navigationController.dismiss(animated: true) {
+                dismissAction?()
+            }
         }
     }
 
@@ -71,11 +69,17 @@ class Router: RouterProtocol {
         }
     }
     
-    func presentSearchSettings() {
+    func presentSearchSettings(dismissAction: @escaping (()->Void)) {
         if let navigationController = navigationController {
-            guard let searchSettings = assemblyBuilder?.createSearchSettingsPage(router: self) else { return }
+            guard let searchSettings = assemblyBuilder?.createSearchSettingsPage(router: self, dismissAction: dismissAction) else { return }
             navigationController.present(searchSettings, animated: true)
         }
     }
     
+    func openLikedNewsPage() {
+        if let navigationController = navigationController {
+            guard let likedNews = assemblyBuilder?.createLikedNewsPage(router: self) else { return }
+            navigationController.pushViewController(likedNews, animated: true)
+        }
+    }
 }

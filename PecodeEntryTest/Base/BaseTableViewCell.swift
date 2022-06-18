@@ -14,7 +14,7 @@ protocol BaseTableViewCellProtocol {
 
 class BaseTableViewCell: UITableViewCell, BaseTableViewCellProtocol {
     static func uiNib() -> UINib {
-        return UINib(nibName: self.identifire, bundle: nil)
+        return UINib(nibName: identifire, bundle: nil)
     }
     
     static var identifire: String {

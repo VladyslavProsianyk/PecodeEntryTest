@@ -8,15 +8,24 @@
 import Foundation
 import RealmSwift
 
-class NewsModel: Codable {
-    let source: SourceModel
-    let author: String?
-    let title: String?
-    let description: String?
-    let url: String?
-    let urlToImage: String?
-    let publishedAt: String?
-    let content: String?
+protocol NewsModelProtocol: AnyObject {
+    var author: String? { get set }
+    var title: String? { get set }
+    var url: String? { get set }
+    var urlToImage: String? { get set }
+    var publishedAt: String? { get set }
+    var content: String? { get set }
+}
+
+class NewsResponseModel: Codable, NewsModelProtocol {
+    var source: SourceModel
+    var author: String?
+    var title: String?
+    var description: String?
+    var url: String?
+    var urlToImage: String?
+    var publishedAt: String?
+    var content: String?
     
     init(source: SourceModel, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?) {
         self.source = source
@@ -29,39 +38,35 @@ class NewsModel: Codable {
         self.content = content
     }
     
-    func getRealmObject() -> Object {
-        return NewsModelRealmObject(source: SourceModelRealmObject(id: source.id,
-                                                                              name: source.name),
-                                               author: author,
-                                               title: title,
-                                               description: description,
-                                               url: url,
-                                               urlToImage: urlToImage,
-                                               publishedAt: publishedAt,
-                                               content: content)
+    func toRealmObject() -> NewsRealmModel {
+        let sourceObject = SourceRealmModel()
+        sourceObject.id = source.id ?? ""
+        sourceObject.name = source.name ?? ""
+        
+        let newsObject = NewsRealmModel()
+        newsObject.source = sourceObject
+        newsObject.author = author ?? ""
+        newsObject.title = title ?? ""
+        newsObject.desc = description ?? ""
+        newsObject.url = url ?? ""
+        newsObject.urlToImage = urlToImage ?? ""
+        newsObject.publishedAt = publishedAt ?? ""
+        newsObject.content = content ?? ""
+        
+        return newsObject
     }
 }
 
-class NewsModelRealmObject: Object {
+class NewsRealmModel: Object, ObjectKeyIdentifiable, NewsModelProtocol {
+//    @Persisted(primaryKey: true) var id: ObjectId
     
-    @objc dynamic var source: SourceModelRealmObject
-    @objc dynamic var author: String?
-    @objc dynamic var title: String?
-    @objc dynamic var desc: String?
-    @objc dynamic var url: String?
-    @objc dynamic var urlToImage: String?
-    @objc dynamic var publishedAt: String?
-    @objc dynamic var content: String?
-    
-    init(source: SourceModelRealmObject, author: String?, title: String?, description: String?, url: String?, urlToImage: String?, publishedAt: String?, content: String?) {
-        self.source = source
-        self.author = author
-        self.title = title
-        self.desc = description
-        self.url = url
-        self.urlToImage = urlToImage
-        self.publishedAt = publishedAt
-        self.content = content
-    }
+    @Persisted var source: SourceRealmModel? = SourceRealmModel()
+    @Persisted var author: String? = ""
+    @Persisted var title: String? = ""
+    @Persisted var desc: String? = ""
+    @Persisted(primaryKey: true) var url: String? = ""
+    @Persisted var urlToImage: String? = ""
+    @Persisted var publishedAt: String? = ""
+    @Persisted var content: String? = ""
     
 }

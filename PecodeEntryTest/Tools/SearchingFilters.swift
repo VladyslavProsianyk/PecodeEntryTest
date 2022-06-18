@@ -11,6 +11,7 @@ struct SearchingFilters: Codable {
     var country: SupportedCountries
     var category: Categories
     var sources: [SourceElement]
+    var isNeedToBeSorted: Bool
 }
 
 enum SupportedCountries: String, CaseIterable, Codable {
@@ -26,10 +27,10 @@ enum SupportedCountries: String, CaseIterable, Codable {
         if self == .allCountries {
             return "All countries"
         }
-        if let name = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: self.rawValue) {
+        if let name = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: rawValue) {
             return name
         } else {
-            return self.rawValue
+            return rawValue
         }
     }
     
@@ -37,7 +38,7 @@ enum SupportedCountries: String, CaseIterable, Codable {
         if self == .allCountries {
             return ""
         } else {
-            return "country=" + self.rawValue.lowercased() + "&"
+            return "country=" + rawValue.lowercased() + "&"
         }
     }
 }
@@ -65,7 +66,7 @@ enum Categories: String, CaseIterable, Codable {
         if self == .allCategories {
             return ""
         } else {
-            return "category=" + self.rawValue.lowercased() + "&"
+            return "category=" + rawValue.lowercased() + "&"
         }
     }
     

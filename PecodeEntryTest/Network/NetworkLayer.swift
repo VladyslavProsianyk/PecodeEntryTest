@@ -13,12 +13,12 @@ class NetworkLayer {
     
     static let shared = NetworkLayer()
         
-    private let newsObservableObject = PublishSubject<NewsResponseModel>()
-    private let sourcesObservableObject = PublishSubject<SourceResponseModel>()
+    let newsObservableObject = PublishSubject<NewsApiResponse>()
+    let sourcesObservableObject = PublishSubject<SourceResponseModel>()
     
-    func getNewsWith(pageNumber: Int, searchingFilters: SearchingFilters) -> Observable<NewsResponseModel> {
+    func getNewsWith(urlType: UrlTypes, pageNumber: Int, searchingFilters: SearchingFilters? = nil, searchingText: String? = nil, isNeedToBeSorted: Bool = false) {
                 
-        if let url = URL(string: UrlTypes.top_headlines.createFullEndpointWith(pageNumber: pageNumber, searchingFilters: searchingFilters)) {
+        if let url = URL(string: urlType.createFullEndpointWith(pageNumber: pageNumber, searchingFilters: searchingFilters, searchingText: searchingText, isNeedToBeSort: isNeedToBeSorted)) {
             URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
                 
                 if let error = error {
@@ -28,15 +28,16 @@ class NetworkLayer {
                 
                 guard
                     let data = data,
-                    let returnObject = try? JSONDecoder().decode(NewsResponseModel.self, from: data)
-                else { return }
+                    let returnObject = try? JSONDecoder().decode(NewsApiResponse.self, from: data)
+                else {
+                    self?.newsObservableObject.onNext(NewsApiResponse(status: "", totalResults: 0, articles: []))
+                    return
+                }
                 
                 self?.newsObservableObject.onNext(returnObject)
 
             }.resume()
         }
-        
-        return newsObservableObject.asObservable()
     }
     
     func getSources() -> Observable<SourceResponseModel> {

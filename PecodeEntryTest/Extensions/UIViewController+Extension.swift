@@ -19,15 +19,16 @@ private var hub: MBProgressHUD?
 private var loadingRefCount = 0
 
 extension UIViewController {
-    
+
     func showToast(_ text: String, duration: TimeInterval = 3 , completeBlock:(()->())? = nil) {
-        let hub = MBProgressHUD.showAdded(to: self.view, animated: true)
-        hub.mode = .text
-        hub.label.text = text
-        hub.label.numberOfLines = 0
-        hub.completionBlock = completeBlock
-        hub.hide(animated: true, afterDelay: duration)
-        
+        DispatchQueue.main.async { [weak self] in
+            let hub = MBProgressHUD.showAdded(to: self?.view ?? UIView(), animated: true)
+            hub.mode = .text
+            hub.label.text = text
+            hub.label.numberOfLines = 0
+            hub.completionBlock = completeBlock
+            hub.hide(animated: true, afterDelay: duration)
+        }
     }
     
     func removeLoading() {
@@ -39,7 +40,7 @@ extension UIViewController {
     func showLoading() {
         loadingRefCount += 1
         if hub == nil {
-            hub = MBProgressHUD.showAdded(to: self.view, animated: true)
+            hub = MBProgressHUD.showAdded(to: view, animated: true)
             hub?.bezelView.blurEffectStyle = .light
         }
     }
@@ -58,7 +59,7 @@ extension UIViewController {
 
 extension UIViewController {
     func handleError(_ error: Error) {
-        self.showToast(error.localizedDescription)
+        showToast(error.localizedDescription)
     }
 }
 
@@ -74,8 +75,8 @@ extension UIViewController {
 
 extension UIView {
     public func animateHidden(_ flag: Bool) {
-        UIView.animate(withDuration: 0.25) {
-            self.alpha = !flag ? 1 : 0
+        UIView.animate(withDuration: 0.25) { [weak self] in
+            self?.alpha = !flag ? 1 : 0
         }
     }
 }

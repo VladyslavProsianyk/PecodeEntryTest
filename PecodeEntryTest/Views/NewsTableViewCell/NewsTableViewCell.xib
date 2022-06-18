@@ -66,8 +66,8 @@
                         <color key="textColor" systemColor="systemGrayColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yFN-Jh-Ntf">
-                        <rect key="frame" x="168" y="7" width="364" height="30"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yFN-Jh-Ntf">
+                        <rect key="frame" x="170" y="10" width="312" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" priority="750" constant="30" id="aC1-cA-bco"/>
                         </constraints>
@@ -99,6 +99,7 @@
             <connections>
                 <outlet property="authorLabel" destination="EPd-pt-1ux" id="QkX-u5-68h"/>
                 <outlet property="descriptionLabel" destination="uT0-5i-yes" id="CeE-CY-qUz"/>
+                <outlet property="likedButton" destination="M8A-Mq-q00" id="C79-X4-LVY"/>
                 <outlet property="newsImageView" destination="fSX-hX-7JK" id="Lau-hv-QcH"/>
                 <outlet property="sourceLabel" destination="qbX-f1-yqp" id="cag-fa-Jda"/>
                 <outlet property="titleLabel" destination="yFN-Jh-Ntf" id="U3K-vo-0lX"/>

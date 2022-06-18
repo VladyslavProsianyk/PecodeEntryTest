@@ -19,42 +19,42 @@ protocol BaseViewControllerProtocol: AnyObject {
 
 public let globalErrorSubject = PublishSubject<Error>()
 
-class BaseViewController<T>: UIViewController, BaseViewControllerProtocol {
+class BaseViewController<T: BaseViewModelProtocol>: UIViewController, BaseViewControllerProtocol {
     
     func onFailure(error: Error) {
-        self.handleError(error)
+        handleError(error)
     }
     
     public var viewModel: T!
     
     public typealias ViewModelType = T
     
-    public fileprivate(set) lazy var disposeBags: [String: DisposeBag] = ["default": self.defaultDisposeBag]
+    public fileprivate(set) lazy var disposeBags: [String: DisposeBag] = ["default": defaultDisposeBag]
     
     public var defaultDisposeBag: DisposeBag! = DisposeBag()
     
     deinit {
-        self.viewModel = nil
-        self.disposeBags.removeAll()
-        self.defaultDisposeBag = nil
+        viewModel = nil
+        disposeBags.removeAll()
+        defaultDisposeBag = nil
         print("\(#function) -- line[\(#line)] -- \((#file as NSString).lastPathComponent)  -- \(self)")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.preSetup()
-        self.performPreSetup()
+        preSetup()
+        performPreSetup()
    
     }
     
     private func preSetup() {
     
-        globalErrorSubject.subscribe(onNext: { error in
-            self.onFailure(error: error)
-            self.removeLoading()
+        globalErrorSubject.subscribe(onNext: { [weak self] error in
+            self?.onFailure(error: error)
+            self?.removeLoading()
             print(error)
-        }).disposed(by: self.defaultDisposeBag)
+        }).disposed(by: defaultDisposeBag)
         
     }
     
@@ -64,7 +64,7 @@ class BaseViewController<T>: UIViewController, BaseViewControllerProtocol {
     
     open override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.hideLoading()
+        hideLoading()
     }
 
     

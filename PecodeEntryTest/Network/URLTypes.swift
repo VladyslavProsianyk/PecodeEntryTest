@@ -31,14 +31,22 @@ enum UrlTypes {
         return endpoint
     }
    
-    func createFullEndpointWith(pageNumber: Int, searchingFilters: SearchingFilters) -> String {
+    func createFullEndpointWith(pageNumber: Int, searchingFilters: SearchingFilters?, searchingText: String? = nil, isNeedToBeSort: Bool) -> String {
         
         var host = url
+        let page = "page=\(pageNumber)&"
+        
+        if searchingText != nil && self == .everything {
+            let searchingText = searchingText?.replacingOccurrences(of: " ", with: "+") ?? "Ukraine"
+            return host + "q=" + searchingText + "&" + page + apiKey
+        }
+        
+        guard let searchingFilters = searchingFilters else { return "" }
         
         var country = ""
         var category = ""
         var sources = ""
-        let page = "page=\(pageNumber)&"
+        var sortBy = ""
         
         if searchingFilters.country != .allCountries {
             country = "country=" + searchingFilters.country.rawValue + "&"
@@ -54,10 +62,15 @@ enum UrlTypes {
             sources.removeLast()
         }
         
+        if searchingFilters.isNeedToBeSorted {
+            sortBy += "sortBy=publishedAt&"
+        }
+        
         if country + category + sources == "" {
             host += "country=ua&"
         }
         
-        return host + country + category + sources + page + apiKey
+        return host + country + category + sortBy + sources + page + apiKey
     }
+    
 }

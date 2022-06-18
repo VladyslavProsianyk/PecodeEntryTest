@@ -11,20 +11,71 @@ import RealmSwift
 
 class DataSaver {
     
-    private init() {}
+    private init() {
+        do {
+            let config = Realm.Configuration(schemaVersion: 1)
+            
+            Realm.Configuration.defaultConfiguration = config
+            
+            realm = try Realm()
+        } catch {
+            globalErrorSubject.onNext(error)
+        }
+    }
+    
     static let shared = DataSaver()
     
     private let userDefaults = UserDefaults()
     
-    func saveObject<U: Object>(_ object: U) {
-        let realm = try! Realm()
-        realm.add(object)
+    var realm: Realm?
+        
+    func saveLikedNews(_ news: NewsRealmModel) {
+        guard let realm = realm else { return }
+
+        realm.beginWrite()
+        realm.add(news, update: .modified)
+        do {
+            try realm.commitWrite()
+        } catch {
+            globalErrorSubject.onNext(error)
+        }
+    }
+
+    func getAllLikedNews() -> [NewsRealmModel] {
+        guard let realm = realm else { return [] }
+        
+        var savedNews: [NewsRealmModel] = []
+        realm.objects(NewsRealmModel.self).forEach { savedNews.append($0) }
+        return savedNews
     }
     
-    func printObjectsInRealm<U: Object>(_ object: U) {
-        let realm = try! Realm()
+    func removeAllLikedNews() {
+        guard let realm = realm else { return }
         
-        print(realm.objects(U.self).description)
+        realm.beginWrite()
+        realm.delete(realm.objects(NewsRealmModel.self))
+        do {
+            try realm.commitWrite()
+        } catch {
+            globalErrorSubject.onNext(error)
+        }
+    }
+    
+    func removeExactLikedNews(_ newsUrl: String) {
+        guard let realm = realm else { return }
+        
+        do {
+            try realm.write({
+                
+                let itemToDelete = realm.objects(NewsRealmModel.self).filter { item in
+                    return item.url == newsUrl
+                }
+                
+                realm.delete(itemToDelete)
+            })
+        } catch {
+            globalErrorSubject.onNext(error)
+        }
     }
     
     func saveSearchingFilters(_ filters: SearchingFilters) {
@@ -38,7 +89,7 @@ class DataSaver {
             let data = userDefaults.data(forKey: "SearchingFilters"),
             let decodedObject = try? JSONDecoder().decode(SearchingFilters.self, from: data)
         else {
-            return SearchingFilters(country: .allCountries, category: .allCategories, sources: [])
+            return SearchingFilters(country: .allCountries, category: .allCategories, sources: [], isNeedToBeSorted: false)
         }
         return decodedObject
     }

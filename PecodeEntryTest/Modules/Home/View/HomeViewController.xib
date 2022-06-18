@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeViewController" customModule="PecodeEntryTest" customModuleProvider="target">
             <connections>
                 <outlet property="newsTableView" destination="uEo-mC-xhc" id="Vil-FE-hPa"/>
+                <outlet property="searchBar" destination="Xvx-Lp-BBT" id="SaH-w7-DKo"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,16 +22,30 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="uEo-mC-xhc">
-                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
+                <searchBar contentMode="redraw" placeholder="Global search" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xvx-Lp-BBT">
+                    <rect key="frame" x="0.0" y="44" width="414" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="L9E-Hw-Z65"/>
+                    </constraints>
+                    <textInputTraits key="textInputTraits"/>
+                    <scopeButtonTitles>
+                        <string>Title</string>
+                        <string>Title</string>
+                    </scopeButtonTitles>
+                </searchBar>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="uEo-mC-xhc" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="2wO-iu-IuC"/>
-                <constraint firstItem="uEo-mC-xhc" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="8xg-gy-s6s"/>
+                <constraint firstItem="uEo-mC-xhc" firstAttribute="top" secondItem="Xvx-Lp-BBT" secondAttribute="bottom" id="8xg-gy-s6s"/>
                 <constraint firstItem="uEo-mC-xhc" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="H4x-4f-tch"/>
+                <constraint firstItem="Xvx-Lp-BBT" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="MlA-YB-S28"/>
+                <constraint firstItem="Xvx-Lp-BBT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="S2r-hS-PcK"/>
+                <constraint firstItem="Xvx-Lp-BBT" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="gIE-is-mQf"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="uEo-mC-xhc" secondAttribute="bottom" id="lLT-n2-voL"/>
             </constraints>
             <point key="canvasLocation" x="137.68115942028987" y="150.66964285714286"/>

@@ -47,6 +47,11 @@
 		3025A598285C3784000346F8 /* SourceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3025A596285C3784000346F8 /* SourceTableViewCell.swift */; };
 		3025A599285C3784000346F8 /* SourceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3025A597285C3784000346F8 /* SourceTableViewCell.xib */; };
 		3025A59B285C61EA000346F8 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3025A59A285C61EA000346F8 /* UIColor+Extension.swift */; };
+		30C14BB4285D4ACE00F748D8 /* LikedNewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C14BB3285D4ACE00F748D8 /* LikedNewsViewModel.swift */; };
+		30C14BB6285D566900F748D8 /* BaseViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C14BB5285D566900F748D8 /* BaseViewModelProtocol.swift */; };
+		30C14BBD285D701400F748D8 /* LikedNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C14BBB285D701400F748D8 /* LikedNewsViewController.swift */; };
+		30C14BBE285D701400F748D8 /* LikedNewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 30C14BBC285D701400F748D8 /* LikedNewsViewController.xib */; };
+		30C14BC0285D90F600F748D8 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C14BBF285D90F600F748D8 /* NotificationName+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +90,11 @@
 		3025A596285C3784000346F8 /* SourceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceTableViewCell.swift; sourceTree = "<group>"; };
 		3025A597285C3784000346F8 /* SourceTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SourceTableViewCell.xib; sourceTree = "<group>"; };
 		3025A59A285C61EA000346F8 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		30C14BB3285D4ACE00F748D8 /* LikedNewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedNewsViewModel.swift; sourceTree = "<group>"; };
+		30C14BB5285D566900F748D8 /* BaseViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModelProtocol.swift; sourceTree = "<group>"; };
+		30C14BBB285D701400F748D8 /* LikedNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedNewsViewController.swift; sourceTree = "<group>"; };
+		30C14BBC285D701400F748D8 /* LikedNewsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LikedNewsViewController.xib; sourceTree = "<group>"; };
+		30C14BBF285D90F600F748D8 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +138,6 @@
 				3025A4E82859D4B6000346F8 /* SceneDelegate.swift */,
 				3025A4EC2859D4B6000346F8 /* Main.storyboard */,
 				3025A5282859E57F000346F8 /* ApiKey.swift */,
-				3025A5262859DC35000346F8 /* WebController.swift */,
 				3025A56A285ABD3C000346F8 /* Tools */,
 				3025A565285AB7A9000346F8 /* Models */,
 				3025A562285AB696000346F8 /* Network */,
@@ -148,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				3025A5052859D7C0000346F8 /* BaseViewController.swift */,
+				30C14BB5285D566900F748D8 /* BaseViewModelProtocol.swift */,
 				3025A55D285AB0CD000346F8 /* BaseTableViewCell.swift */,
 			);
 			path = Base;
@@ -183,6 +193,8 @@
 		3025A5212859DA7D000346F8 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				30C14BAC285D497000F748D8 /* LikedNews */,
+				30C14BAA285D479D00F748D8 /* Web */,
 				3025A588285C0D4B000346F8 /* SearchFilter */,
 				3025A5202859DA2F000346F8 /* Home */,
 			);
@@ -203,6 +215,7 @@
 				3025A5242859DB8A000346F8 /* UIViewController+Extension.swift */,
 				3025A580285C0328000346F8 /* UIBarButtonItem+Extension.swift */,
 				3025A59A285C61EA000346F8 /* UIColor+Extension.swift */,
+				30C14BBF285D90F600F748D8 /* NotificationName+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -290,6 +303,40 @@
 			path = SourceTableViewCell;
 			sourceTree = "<group>";
 		};
+		30C14BAA285D479D00F748D8 /* Web */ = {
+			isa = PBXGroup;
+			children = (
+				3025A5262859DC35000346F8 /* WebController.swift */,
+			);
+			path = Web;
+			sourceTree = "<group>";
+		};
+		30C14BAC285D497000F748D8 /* LikedNews */ = {
+			isa = PBXGroup;
+			children = (
+				30C14BAE285D498700F748D8 /* ViewModel */,
+				30C14BAD285D497F00F748D8 /* View */,
+			);
+			path = LikedNews;
+			sourceTree = "<group>";
+		};
+		30C14BAD285D497F00F748D8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				30C14BBB285D701400F748D8 /* LikedNewsViewController.swift */,
+				30C14BBC285D701400F748D8 /* LikedNewsViewController.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		30C14BAE285D498700F748D8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				30C14BB3285D4ACE00F748D8 /* LikedNewsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -364,6 +411,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3025A4F32859D4B7000346F8 /* LaunchScreen.storyboard in Resources */,
+				30C14BBE285D701400F748D8 /* LikedNewsViewController.xib in Resources */,
 				3025A4F02859D4B7000346F8 /* Assets.xcassets in Resources */,
 				3025A590285C0DFD000346F8 /* SerchFilterViewController.xib in Resources */,
 				3025A4EE2859D4B6000346F8 /* Main.storyboard in Resources */,
@@ -385,9 +433,11 @@
 				3025A561285AB2AF000346F8 /* NewsModel.swift in Sources */,
 				3025A57A285BED8E000346F8 /* SourceModel.swift in Sources */,
 				3025A564285AB6A5000346F8 /* NetworkLayer.swift in Sources */,
+				30C14BB6285D566900F748D8 /* BaseViewModelProtocol.swift in Sources */,
 				3025A4E72859D4B6000346F8 /* AppDelegate.swift in Sources */,
 				3025A592285C1378000346F8 /* SourceResponseModel.swift in Sources */,
 				3025A57F285BFE68000346F8 /* SearchingFilters.swift in Sources */,
+				30C14BB4285D4ACE00F748D8 /* LikedNewsViewModel.swift in Sources */,
 				3025A598285C3784000346F8 /* SourceTableViewCell.swift in Sources */,
 				3025A578285BEC33000346F8 /* DataSaver.swift in Sources */,
 				3025A5272859DC35000346F8 /* WebController.swift in Sources */,
@@ -397,6 +447,8 @@
 				3025A57D285BF0F6000346F8 /* NewsTableViewCellViewModel.swift in Sources */,
 				3025A581285C0328000346F8 /* UIBarButtonItem+Extension.swift in Sources */,
 				3025A567285AB7D6000346F8 /* NewsResponseModel.swift in Sources */,
+				30C14BBD285D701400F748D8 /* LikedNewsViewController.swift in Sources */,
+				30C14BC0285D90F600F748D8 /* NotificationName+Extension.swift in Sources */,
 				3025A55C285AAF9F000346F8 /* HomeViewModel.swift in Sources */,
 				3025A594285C1645000346F8 /* URLTypes.swift in Sources */,
 				3025A4E92859D4B6000346F8 /* SceneDelegate.swift in Sources */,
@@ -559,8 +611,9 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = LIGHT;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -588,8 +641,9 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = LIGHT;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

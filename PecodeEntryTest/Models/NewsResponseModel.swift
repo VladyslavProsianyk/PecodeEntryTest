@@ -8,8 +8,8 @@
 import Foundation
 
 
-struct NewsResponseModel: Codable {
+struct NewsApiResponse: Codable {
     let status: String
     let totalResults: Int
-    let articles: [NewsModel]
+    let articles: [NewsResponseModel]
 }

@@ -11,16 +11,20 @@ import RxSwift
 
 class SerchFilterViewController: BaseViewController<SerchFilterViewModel>, UITableViewDelegate {
     
+    var dismissAction: (() -> Void)?
+    
     @IBOutlet weak var countryPickerView: UIPickerView!
     @IBOutlet weak var categoryPickerView: UIPickerView!
+    @IBOutlet weak var isNeedToBeSortedSwith: UISwitch!
     @IBOutlet weak var sourcesTableView: UITableView!
     
     @IBAction func cancelButtonDidTap(_ sender: UIButton) {
-        viewModel.dismiss()
+        viewModel.dismiss(dismissAction: nil)
     }
     
     @IBAction func doneButtonDidTap(_ sender: UIButton) {
-        viewModel.saveSearchingSettings(country: selectedCountry, category: selectedCategory, sources: selectedSources)
+        viewModel.saveSearchingSettings(country: selectedCountry, category: selectedCategory, sources: selectedSources, isNeedToBeSorted: isNeedToBeSortedSwith.isOn)
+        viewModel.dismiss(dismissAction: dismissAction)
     }
     
     override func performPreSetup() {
@@ -46,6 +50,7 @@ class SerchFilterViewController: BaseViewController<SerchFilterViewModel>, UITab
         selectedSources = settings.sources
         selectedCountry = settings.country
         selectedCategory = settings.category
+        isNeedToBeSortedSwith.isOn = settings.isNeedToBeSorted
         
     }
     
@@ -110,7 +115,7 @@ class SerchFilterViewController: BaseViewController<SerchFilterViewModel>, UITab
         
         viewModel
             .getSources(disposeBag: defaultDisposeBag)
-            .do(onNext: { self.sourcesList.append(contentsOf: $0) })
+            .do(onNext: { [weak self] in self?.sourcesList.append(contentsOf: $0) })
             .bind(to: sourcesTableView
                 .rx
                 .items(cellIdentifier: SourceTableViewCell.identifire, cellType: SourceTableViewCell.self)) { [weak self] row, item, cell in

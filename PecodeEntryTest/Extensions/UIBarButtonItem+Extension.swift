@@ -11,7 +11,7 @@ import RxCocoa
 
 extension UIBarButtonItem {
     public func performWhemTap(_ action: (()->Void)?) -> Disposable {
-        return self.rx.tap.subscribe(onNext: { (_) in
+        return rx.tap.subscribe(onNext: { (_) in
             action?()
         })
     }

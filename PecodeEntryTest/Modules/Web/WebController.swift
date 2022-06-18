@@ -9,7 +9,9 @@ import UIKit
 import WebKit
 import RxSwift
 
-class WebController: BaseViewController<NSNull> {
+
+
+class WebController: BaseViewController<LikedNewsViewModel> {
         
     private(set) lazy var webView: WKWebView = WKWebView(frame: .zero)
         
@@ -39,13 +41,11 @@ class WebController: BaseViewController<NSNull> {
         navigationController?.navigationBar.tintColor = .black
         
         webView.translatesAutoresizingMaskIntoConstraints = false
-        let guide = self.view.safeAreaLayoutGuide
+        let guide = view.safeAreaLayoutGuide
         webView.trailingAnchor.constraint(equalTo: guide.trailingAnchor).isActive = true
         webView.leadingAnchor.constraint(equalTo: guide.leadingAnchor).isActive = true
         webView.topAnchor.constraint(equalTo: guide.topAnchor).isActive = true
         webView.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
-        
-        
     }
     
 }
